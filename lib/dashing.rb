@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sprockets'
+require 'sprockets-sass'
 require 'sinatra/content_for'
 require 'rufus/scheduler'
 require 'coffee-script'
@@ -72,6 +73,16 @@ post '/widgets/:id' do
   else
     status 401
     "Invalid API key\n"
+  end
+end
+
+get '/theme/:theme/:dashboard' do
+  protected!
+  set :theme, params[:theme]
+  if File.exist? File.join(settings.views, "#{params[:dashboard]}.erb")
+    erb params[:dashboard].to_sym
+  else
+    halt 404
   end
 end
 
