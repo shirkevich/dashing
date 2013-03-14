@@ -78,7 +78,7 @@ end
 
 get '/theme/:theme/:dashboard' do
   protected!
-  set :theme, params[:theme]
+  $theme = params[:theme]
   if File.exist? File.join(settings.views, "#{params[:dashboard]}.erb")
     erb params[:dashboard].to_sym
   else
